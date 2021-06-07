@@ -11,6 +11,10 @@ use std::thread;
 pub use self::clipboard::*;
 pub use self::color::ImColor32;
 pub use self::context::*;
+pub use self::drag::{
+    DragFloat, DragFloat2, DragFloat3, DragFloat4, DragFloatRange2, DragInt, DragInt2, DragInt3,
+    DragInt4, DragIntRange2,
+};
 pub use self::drag_drop::{DragDropFlags, DragDropSource, DragDropTarget};
 pub use self::draw_list::{ChannelsSplit, DrawListMut};
 pub use self::fonts::atlas::*;
@@ -60,6 +64,7 @@ mod clipboard;
 pub mod color;
 mod columns;
 mod context;
+mod drag;
 pub mod drag_drop;
 pub mod draw_list;
 mod fonts;
@@ -385,7 +390,7 @@ impl<'ui> Ui<'ui> {
         let items_inner: Vec<*const c_char> =
             items.iter().map(|item| item.as_ref().as_ptr()).collect();
         unsafe {
-            sys::igListBoxStr_arr(
+            sys::igListBox_Str_arr(
                 label.as_ptr(),
                 current_item,
                 items_inner.as_ptr() as *mut *const c_char,
